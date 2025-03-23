@@ -2,11 +2,10 @@
   "name": "mcp-servers",
   "version": "1.0.0",
   "description": "MCP Servers Project",
-  "main": "dist/index.js",
+  "main": "dist/demo/index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn src/index.ts",
-    "demo": "ts-node-dev --respawn src/demo/index.ts",
+    "start": "node dist/demo/index.js",
+    "dev": "ts-node-dev --respawn src/demo/index.ts",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .ts,.js"
