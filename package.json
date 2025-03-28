@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node dist/demo/index.js",
     "dev": "ts-node-dev --respawn src/demo/index.ts",
-    "weather": "ts-node-dev --respawn src/weather/index.ts",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint . --ext .ts,.js"
@@ -16,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "@mintlify/mcp": "^1.1.20",
-    "axios": "^1.8.4",
     "express": "^4.21.2",
     "mcp": "^1.4.2",
     "mcp-sdk": "^0.1.0"
