@@ -1,0 +1,23 @@
+{
+  "name": "@mcp-servers/weather",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "../../build/weather/index.js",
+  "types": "../../build/weather/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ../../build/weather/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.7",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+} 

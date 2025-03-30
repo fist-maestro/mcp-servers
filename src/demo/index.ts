@@ -1,28 +1,43 @@
-import express from 'express';
-import { HelloWorld } from './HelloWorld';
+import { GreetingController } from './controllers/GreetingController';
+import { GreetingRequest } from './config/constants';
 
-const app = express();
-const port = 3001; // 使用不同的端口，避免与主程序冲突
+// 创建控制器实例
+const greetingController = new GreetingController();
 
-// 创建 HelloWorld 实例
-const helloWorld = new HelloWorld();
+interface ToolRequest {
+    tool: string;
+    args: any[];
+}
 
-// 基础路由
-app.get('/', (req, res) => {
-    res.json({ message: helloWorld.getGreeting() });
+// 注册 MCP 工具
+const tools: Record<string, Function> = {
+    'get-default-greeting': () => {
+        return greetingController.handleDefaultGreeting();
+    },
+    'get-custom-greeting': (request: GreetingRequest) => {
+        return greetingController.handleCustomGreeting(request);
+    },
+    'get-template-greeting': (template: string, request: GreetingRequest) => {
+        return greetingController.handleTemplateGreeting(template, request);
+    }
+};
+
+// 处理标准输入
+process.stdin.setEncoding('utf-8');
+process.stdin.on('data', (data: string) => {
+    try {
+        const request: ToolRequest = JSON.parse(data);
+        const { tool, args } = request;
+
+        if (tool in tools) {
+            const result = tools[tool](...(args || []));
+            console.log(JSON.stringify({ result }));
+        } else {
+            console.error(`Unknown tool: ${tool}`);
+        }
+    } catch (error) {
+        console.error('Error processing request:', error);
+    }
 });
 
-// 自定义问候语路由
-app.get('/greet/:name', (req, res) => {
-    const name = req.params.name;
-    helloWorld.setGreeting(`Hello, ${name}!`);
-    res.json({ message: helloWorld.getGreeting() });
-});
-
-// 启动服务器
-app.listen(port, () => {
-    console.log(`Demo server is running at http://localhost:${port}`);
-    console.log('Try these endpoints:');
-    console.log(`- http://localhost:${port}/`);
-    console.log(`- http://localhost:${port}/greet/YourName`);
-}); 
+console.log('Demo MCP Server running on stdio.'); 
