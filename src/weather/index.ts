@@ -60,12 +60,28 @@ server.tool(
 );
 
 async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("Weather MCP Server running on stdio");
+  console.error("正在初始化 Weather MCP 服务...");
+  console.error(`服务名称: ${config.server.name}`);
+  console.error(`服务版本: ${config.server.version}`);
+  console.error(`API Base URL: ${config.openWeather.apiBase}`);
+  console.error(`单位系统: ${config.openWeather.units}`);
+  
+  try {
+    console.error("正在创建服务传输层...");
+    const transport = new StdioServerTransport();
+    
+    console.error("正在连接 MCP 服务器...");
+    await server.connect(transport);
+    
+    console.error("服务初始化完成！");
+    console.error("Weather MCP Server running on stdio");
+  } catch (error) {
+    console.error("服务启动失败:", error);
+    throw error;
+  }
 }
 
 main().catch((error) => {
   console.error("Fatal error in main():", error);
   process.exit(1);
-}); 
+});

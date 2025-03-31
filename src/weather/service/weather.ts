@@ -8,6 +8,9 @@ export class WeatherService {
   private readonly units: string;
 
   constructor() {
+    if (!config.openWeather.apiKey) {
+      throw new Error('OpenWeather API key is required');
+    }
     this.apiKey = config.openWeather.apiKey;
     this.apiBase = config.openWeather.apiBase;
     this.units = config.openWeather.units;
@@ -38,4 +41,4 @@ export class WeatherService {
     const query = country ? `${city},${country}` : city;
     return this.makeRequest<ForecastData>("forecast", { q: query });
   }
-} 
+}
